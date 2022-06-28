@@ -1,1 +1,393 @@
-var htmlTag=document.documentElement,toggles=document.querySelector(".toggles"),calculator=document.querySelector("form#calculator");if(toggles&&("dark"!==localStorage.theme&&("theme"in localStorage||!window.matchMedia("(prefers-color-scheme: dark)").matches)?(htmlTag.classList.remove("dark"),toggles.querySelector(".toggle-mode.dark-mode").classList.remove("hidden"),toggles.querySelector(".toggle-mode.light-mode").classList.add("hidden"),localStorage.setItem("theme","light")):(htmlTag.classList.add("dark"),toggles.querySelector(".toggle-mode.dark-mode").classList.add("hidden"),toggles.querySelector(".toggle-mode.light-mode").classList.remove("hidden"),localStorage.setItem("theme","dark")),toggles.querySelectorAll(".toggle-mode").forEach(function(a){a.addEventListener("click",function(){this.classList.contains("light-mode")?(htmlTag.classList.remove("dark"),toggles.querySelector(".toggle-mode.dark-mode").classList.remove("hidden"),toggles.querySelector(".toggle-mode.light-mode").classList.add("hidden"),localStorage.setItem("theme","light")):(htmlTag.classList.add("dark"),toggles.querySelector(".toggle-mode.dark-mode").classList.add("hidden"),toggles.querySelector(".toggle-mode.light-mode").classList.remove("hidden"),localStorage.setItem("theme","dark"))})})),calculator){var i,j,a=calculator.querySelectorAll('input[name="activity-level-method"]'),k=calculator.querySelector(".activity-level-panel"),l=calculator.querySelector(".activity-level-title"),m=calculator.querySelectorAll(".activity-level-label"),b=calculator.querySelectorAll("button.next, button.back"),n=Array.prototype.slice.call(calculator.querySelectorAll("fieldset")),c=calculator.querySelector('select[name="height-unit"]'),o=Array.prototype.slice.call(calculator.querySelectorAll("#height-input-ft-inches, #height-input")),d=calculator.querySelector('select[name="weight-unit"]'),p=Array.prototype.slice.call(calculator.querySelectorAll("#weight-input-st-lbs, #weight-input")),q=calculator.querySelector("fieldset:last-child h3 .goal"),r=calculator.querySelector("#calorie-range strong"),e=calculator.querySelector("#why-range-open"),s=calculator.querySelector("#why-range-panel"),f=calculator.querySelector("#why-range-close"),g=calculator.querySelector("#change-activity-level"),h=g.querySelector("select");function t(){let a=Array.prototype.slice.call(calculator.querySelectorAll(".error-message"));a.length>0&&a.map(function(a){return a.remove()})}function u(c,j,k){let a=!1,b=c.querySelector('input[name="age"]'),d=c.querySelector('input[name="height-ft"]'),e=c.querySelector('input[name="height-in"]'),f=c.querySelector('input[name="height"]'),g=c.querySelector('input[name="weight-st"]'),h=c.querySelector('input[name="weight-lbs"]'),i=c.querySelector('input[name="weight"]');return t(),(""===b.value||0===parseFloat(b.value)||b.value.indexOf(".")> -1||0>parseFloat(b.value))&&(a=!0,b.insertAdjacentHTML("afterend",'<div class="error-message">Age should be a whole number</div>')),(parseFloat(b.value)>0&&18>parseFloat(b.value)||parseFloat(b.value)>=65)&&(a=!0,b.insertAdjacentHTML("afterend",'<div class="error-message">This calculator is recommended for people over 18 and under 65.</div>')),"ft-in"===j?((""===d.value||0===parseFloat(d.value)||d.value.indexOf(".")> -1||0>parseFloat(d.value))&&(a=!0,d.insertAdjacentHTML("afterend",'<div class="error-message">Height (ft) should be a whole number</div>')),""===e.value&&(e.value=0),(e.value.indexOf(".")> -1||0>parseFloat(e.value))&&(a=!0,e.insertAdjacentHTML("afterend",'<div class="error-message">Height (in) should be a whole number</div>'))):(""===f.value||0===parseFloat(f.value)||f.value.indexOf(".")> -1||0>parseFloat(f.value))&&(a=!0,f.insertAdjacentHTML("afterend",'<div class="error-message">Height ('+j+") should be a whole number</div>")),"st-lbs"===k?((""===g.value||0===parseFloat(g.value)||g.value.indexOf(".")> -1||0>parseFloat(g.value))&&(a=!0,g.insertAdjacentHTML("afterend",'<div class="error-message">Weight (st) should be a whole number</div>')),""===h.value&&(h.value=0),(h.value.indexOf(".")> -1||0>parseFloat(h.value))&&(a=!0,h.insertAdjacentHTML("afterend",'<div class="error-message">Weight (lbs) should be a whole number</div>'))):(""===i.value||0===parseFloat(i.value)||i.value.indexOf(".")> -1||0>parseFloat(i.value))&&(a=!0,i.insertAdjacentHTML("afterend",'<div class="error-message">Weight ('+k+") should be a whole number</div>")),!a||(c.querySelector("fieldset#step-2").style.display="block",!1)}c.addEventListener("change",function(){if(t(),o.map(function(a){return a.classList.add("!hidden")}),"ft-in"===this.value)calculator.querySelector("#height-input-ft-inches").classList.remove("!hidden");else{let a=calculator.querySelector("#height-input");a.querySelector('input[name="height"]').value="",a.classList.remove("!hidden")}}),d.addEventListener("change",function(){if(t(),p.map(function(a){return a.classList.add("!hidden")}),"st-lbs"===this.value)calculator.querySelector("#weight-input-st-lbs").classList.remove("!hidden");else{let a=calculator.querySelector("#weight-input");a.querySelector('input[name="weight"]').value="",a.classList.remove("!hidden")}}),a.forEach(function(a){a.addEventListener("change",function(b){b.preventDefault(),"none"===k.style.display&&(k.style.display="block"),m.forEach(function(b){let d=l.dataset[a.value],c=JSON.parse(b.dataset[a.value]);l.innerHTML=d,b.querySelector("span").innerHTML=c.title,b.querySelector("small").innerHTML=c.text}),g.querySelectorAll("label, select option").forEach(function(b){b.innerHTML=b.dataset[a.value]})})}),calculator.querySelector("button.calculate-calories").addEventListener("click",function(g){g.preventDefault(),j=calculator.querySelector('input[name="goal"]:checked');let k=calculator.querySelector('input[name="gender"]:checked'),c=calculator.querySelector('input[name="activity-level"]:checked'),d=calculator.querySelector('select[name="height-unit"]').value,e=calculator.querySelector('select[name="weight-unit"]').value,l=calculator.querySelector('input[name="age"]').value,m=calculator.querySelector('input[name="height-ft"]').value,o=calculator.querySelector('input[name="height-in"]').value,a=calculator.querySelector('input[name="height"]').value,p=calculator.querySelector('input[name="weight-st"]').value,s=calculator.querySelector('input[name="weight-lbs"]').value,b=calculator.querySelector('input[name="weight"]').value;if(!u(calculator,d,e)){calculator.querySelector("fieldset#step-3").style.display="none";return}switch(d){case"ft-in":a=12*parseFloat(m)+parseFloat(o),a=Math.floor(2.54*parseFloat(a));break;case"in":a=Math.floor(2.54*parseFloat(a))}switch(e){case"st-lbs":b=14*parseFloat(p)+parseFloat(s),b=Math.floor(parseFloat(b)/2.205);break;case"lbs":b=Math.floor(parseFloat(b)/2.205)}i=Math.round(10*b+6.25*a-5*l);let t=Math.round((i="female"===k.value?i-161:i+5)*parseFloat(c.value)),f=Math.round(t*parseFloat(j.value));q.innerHTML=j.title.toLowerCase(),r.innerHTML=f-100+" - "+(f+100),n.map(function(a){return a.style.display="none"}),h.value=c.value,calculator.querySelector("fieldset:last-child").style.display="block",calculator.firstElementChild.scrollIntoView()}),b.forEach(function(a){a.addEventListener("click",function(c){c.preventDefault();var b=this.closest("fieldset");n.map(function(a){return a.style.display="none"}),a.classList.contains("next")?a.classList.contains("check-fields")?u(calculator,calculator.querySelector('select[name="height-unit"]').value,calculator.querySelector('select[name="weight-unit"]').value)&&(b.nextElementSibling.style.display="block"):b.nextElementSibling.style.display="block":b.previousElementSibling.style.display="block",calculator.firstElementChild.scrollIntoView()})}),e.addEventListener("click",function(a){a.preventDefault(),s.style.display="block"}),f.addEventListener("click",function(a){a.preventDefault(),s.style.display="none"}),h.addEventListener("change",function(){let b=Math.round(i*parseFloat(this.value)),a=Math.round(b*parseFloat(j.value));r.innerHTML=a-100+" - "+(a+100),calculator.firstElementChild.scrollIntoView()})}
+var htmlTag    = document.documentElement;
+var toggles    = document.querySelector('.toggles');
+var calculator = document.querySelector('form#calculator');
+
+if (toggles) {
+    /**
+     * Sets light mode/dark mode initially
+     */
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        htmlTag.classList.add('dark');
+        toggles.querySelector('.toggle-mode.dark-mode').classList.add('hidden');
+        toggles.querySelector('.toggle-mode.light-mode').classList.remove('hidden');
+
+        localStorage.setItem("theme", "dark");
+    } else {
+        htmlTag.classList.remove('dark');
+        toggles.querySelector('.toggle-mode.dark-mode').classList.remove('hidden');
+        toggles.querySelector('.toggle-mode.light-mode').classList.add('hidden');
+
+        localStorage.setItem("theme", "light");
+    }
+
+    /**
+     * Toggles light mode/dark mode
+     */
+    toggles.querySelectorAll('.toggle-mode').forEach(function (toggleMode) {
+        toggleMode.addEventListener('click', function () {
+            if (this.classList.contains('light-mode')) {
+                htmlTag.classList.remove('dark');
+                toggles.querySelector('.toggle-mode.dark-mode').classList.remove('hidden');
+                toggles.querySelector('.toggle-mode.light-mode').classList.add('hidden');
+
+                localStorage.setItem("theme", "light");
+            } else {
+                htmlTag.classList.add('dark');
+                toggles.querySelector('.toggle-mode.dark-mode').classList.add('hidden');
+                toggles.querySelector('.toggle-mode.light-mode').classList.remove('hidden');
+
+                localStorage.setItem("theme", "dark");
+            }
+        });
+    });
+}
+
+if (calculator) {
+    // Men	 BMR = (10 × weight in kg) + (6.25 × height in cm) - (5 × age in years) + 5
+    // Women BMR = (10 × weight in kg) + (6.25 × height in cm) - (5 × age in years) - 161
+    var activityMethodBtns          = calculator.querySelectorAll('input[name="activity-level-method"]');
+    var activityLevelPanel          = calculator.querySelector('.activity-level-panel');
+    var activityLevelTitle          = calculator.querySelector('.activity-level-title');
+    var activityLevelLabels         = calculator.querySelectorAll('.activity-level-label');
+    var calculatorPaginationBtns    = calculator.querySelectorAll('button.next, button.back');
+    var calculatorPanels            = Array.prototype.slice.call(calculator.querySelectorAll('fieldset'));
+    var calculatorHeightUnit        = calculator.querySelector('select[name="height-unit"]');
+    var calculatorHeightInputs      = Array.prototype.slice.call(calculator.querySelectorAll('#height-input-ft-inches, #height-input'));
+    var calculatorWeightUnit        = calculator.querySelector('select[name="weight-unit"]');
+    var calculatorWeightInputs      = Array.prototype.slice.call(calculator.querySelectorAll('#weight-input-st-lbs, #weight-input'));
+    var calorieResultsGoal          = calculator.querySelector('fieldset#calorie-results-panel h3 .goal');
+    var calorieResultsRange         = calculator.querySelector('#calorie-range strong');
+    var whyRangeOpen                = calculator.querySelector('#why-range-open');
+    var whyRangePanel               = calculator.querySelector('#why-range-panel');
+    var whyRangeClose               = calculator.querySelector('#why-range-close');
+    var changeActivityLevel         = calculator.querySelector('#change-activity-level');
+    var changeActivityLevelDropdown = changeActivityLevel.querySelector('select');
+    var bmr, goal;
+
+    window.checkInput = function(event) {
+        if (
+            event.which === 187 ||
+            event.which === 189 ||
+            event.which === 69 ||
+            event.which === 190
+        ) {
+            event.preventDefault();
+        }
+    }
+
+    function removeExistingErrorsIfAny() {
+        let existingErrors = Array.prototype.slice.call(calculator.querySelectorAll('.error-message'));
+
+        if (existingErrors.length > 0) {
+            existingErrors.map(function(errorMessage){
+                return errorMessage.remove();
+            });
+        }
+    }
+
+    function checkFailableFields(calculator, heightUnit, weightUnit) {
+        let errors         = false;
+        let age            = calculator.querySelector('input[name="age"]');
+        let heightFt       = calculator.querySelector('input[name="height-ft"]');
+        let heightIn       = calculator.querySelector('input[name="height-in"]');
+        let height         = calculator.querySelector('input[name="height"]');
+        let weightSt       = calculator.querySelector('input[name="weight-st"]');
+        let weightLbs      = calculator.querySelector('input[name="weight-lbs"]');
+        let weight         = calculator.querySelector('input[name="weight"]');
+
+        removeExistingErrorsIfAny();
+
+        if (
+            age.value === '' ||
+            parseFloat(age.value) === 0 ||
+            age.value.indexOf('.') > -1 ||
+            parseFloat(age.value) < 0
+        ) {
+            errors = true;
+
+            age.insertAdjacentHTML(
+                'afterend',
+                '<div class="error-message">Age should be a whole number</div>'
+            );
+        }
+
+        if (
+            ( parseFloat(age.value) > 0 && parseFloat(age.value) < 18 ) ||
+            parseFloat(age.value) >= 65
+        ) {
+            errors = true;
+
+            age.insertAdjacentHTML(
+                'afterend',
+                '<div class="error-message">This calculator is recommended for people over 18 and under 65.</div>'
+            );
+        }
+
+        if (heightUnit === 'ft-in') {
+            if (
+                heightFt.value === '' ||
+                parseFloat(heightFt.value) === 0 ||
+                heightFt.value.indexOf('.') > -1 ||
+                parseFloat(heightFt.value) < 0
+            ) {
+                errors = true;
+
+                heightFt.insertAdjacentHTML(
+                    'afterend',
+                    '<div class="error-message">Height (ft) should be a whole number</div>'
+                );
+            }
+
+            if (heightIn.value === '') {
+                heightIn.value = 0;
+            }
+
+            if (
+                heightIn.value.indexOf('.') > -1 ||
+                parseFloat(heightIn.value) < 0
+            ) {
+                errors = true;
+
+                heightIn.insertAdjacentHTML(
+                    'afterend',
+                    '<div class="error-message">Height (in) should be a whole number</div>'
+                );
+            }
+        } else {
+            if (
+                height.value === '' ||
+                parseFloat(height.value) === 0 ||
+                height.value.indexOf('.') > -1 ||
+                parseFloat(height.value) < 0
+            ) {
+                errors = true;
+
+                height.insertAdjacentHTML(
+                    'afterend',
+                    '<div class="error-message">Height (' + heightUnit + ') should be a whole number</div>'
+                );
+            }
+        }
+
+        if (weightUnit === 'st-lbs') {
+            if (
+                weightSt.value === '' ||
+                parseFloat(weightSt.value) === 0 ||
+                weightSt.value.indexOf('.') > -1 ||
+                parseFloat(weightSt.value) < 0
+            ) {
+                errors = true;
+
+                weightSt.insertAdjacentHTML(
+                    'afterend',
+                    '<div class="error-message">Weight (st) should be a whole number</div>'
+                );
+            }
+
+            if (weightLbs.value === '') {
+                weightLbs.value = 0;
+            }
+
+            if (
+                weightLbs.value.indexOf('.') > -1 ||
+                parseFloat(weightLbs.value) < 0
+            ) {
+                errors = true;
+
+                weightLbs.insertAdjacentHTML(
+                    'afterend',
+                    '<div class="error-message">Weight (lbs) should be a whole number</div>'
+                );
+            }
+        } else {
+            if (
+                weight.value === '' ||
+                parseFloat(weight.value) === 0 ||
+                weight.value.indexOf('.') > -1 ||
+                parseFloat(weight.value) < 0
+            ) {
+                errors = true;
+
+                weight.insertAdjacentHTML(
+                    'afterend',
+                    '<div class="error-message">Weight (' + weightUnit + ') should be a whole number</div>'
+                );
+            }
+        }
+
+        if (errors) {
+            calculator.querySelector('fieldset#step-2').style.display = 'block';
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    calculatorHeightUnit.addEventListener('change', function () {
+        removeExistingErrorsIfAny();
+
+        calculatorHeightInputs.map(function (heightInput) {
+            return heightInput.classList.add('!hidden');
+        });
+
+        if (this.value === 'ft-in') {
+            calculator.querySelector('#height-input-ft-inches').classList.remove('!hidden');
+        } else {
+            let stdHeightWrapper = calculator.querySelector('#height-input');
+            stdHeightWrapper.querySelector('input[name="height"]').value = '';
+            stdHeightWrapper.classList.remove('!hidden');
+        }
+    });
+
+    calculatorWeightUnit.addEventListener('change', function () {
+        removeExistingErrorsIfAny();
+
+        calculatorWeightInputs.map(function (weightInput) {
+            return weightInput.classList.add('!hidden');
+        });
+
+        if (this.value === 'st-lbs') {
+            calculator.querySelector('#weight-input-st-lbs').classList.remove('!hidden');
+        } else {
+            let stdWeightWrapper = calculator.querySelector('#weight-input');
+            stdWeightWrapper.querySelector('input[name="weight"]').value = '';
+            stdWeightWrapper.classList.remove('!hidden');
+        }
+    });
+
+    activityMethodBtns.forEach(function (activityMethodBtn) {
+        activityMethodBtn.addEventListener('change', function (e) {
+            e.preventDefault();
+
+            if (activityLevelPanel.style.display === 'none') {
+                activityLevelPanel.style.display = 'block';
+            }
+
+            activityLevelLabels.forEach(function (activityLevelLabel) {
+                let selectedMethodTitle = activityLevelTitle.dataset[activityMethodBtn.value];
+                let selectedMethodContent = JSON.parse(activityLevelLabel.dataset[activityMethodBtn.value]);
+
+                activityLevelTitle.innerHTML = selectedMethodTitle;
+                activityLevelLabel.querySelector('span').innerHTML = selectedMethodContent.title;
+                activityLevelLabel.querySelector('small').innerHTML = selectedMethodContent.text;
+
+            });
+
+            changeActivityLevel.querySelectorAll('label, select option').forEach(function(activityLevelComponent){
+                activityLevelComponent.innerHTML = activityLevelComponent.dataset[activityMethodBtn.value];
+            });
+        });
+    });
+
+    calculator.querySelector('button.calculate-calories').addEventListener('click', function (e) {
+        e.preventDefault();
+
+        goal              = calculator.querySelector('input[name="goal"]:checked');
+        let gender        = calculator.querySelector('input[name="gender"]:checked');
+        let activityLevel = calculator.querySelector('input[name="activity-level"]:checked');
+        let heightUnit    = calculator.querySelector('select[name="height-unit"]').value;
+        let weightUnit    = calculator.querySelector('select[name="weight-unit"]').value;
+        let age           = calculator.querySelector('input[name="age"]').value;
+        let heightFt      = calculator.querySelector('input[name="height-ft"]').value;
+        let heightIn      = calculator.querySelector('input[name="height-in"]').value;
+        let height        = calculator.querySelector('input[name="height"]').value;
+        let weightSt      = calculator.querySelector('input[name="weight-st"]').value;
+        let weightLbs     = calculator.querySelector('input[name="weight-lbs"]').value;
+        let weight        = calculator.querySelector('input[name="weight"]').value;
+
+        if (! checkFailableFields(calculator, heightUnit, weightUnit) ) {
+            calculator.querySelector('fieldset#step-3').style.display = 'none';
+            return;
+        }
+
+        switch (heightUnit) {
+            case 'ft-in':
+                height = (parseFloat(heightFt) * 12) + parseFloat(heightIn); // Convert to inches.
+                height = Math.floor((parseFloat(height) * 2.54)); // Convert to CM.
+                break;
+            case 'in':
+                height = Math.floor((parseFloat(height) * 2.54)); // Convert to CM.
+                break;
+        }
+
+        switch (weightUnit) {
+            case 'st-lbs':
+                weight = (parseFloat(weightSt) * 14) + parseFloat(weightLbs); // Convert to lbs.
+                weight = Math.floor((parseFloat(weight) / 2.205)); // Convert to kg.
+                break;
+            case 'lbs':
+                weight = Math.floor((parseFloat(weight) / 2.205)); // Convert to kg.
+                break;
+        }
+
+        bmr = Math.round((10 * weight) + (6.25 * height) - (5 * age));
+        bmr = (gender.value === 'female') ? bmr - 161 : bmr + 5;
+
+        let tdee           = Math.round(bmr * parseFloat(activityLevel.value));
+        let targetCalories = Math.round(tdee * parseFloat(goal.value));
+
+        calorieResultsGoal.innerHTML  = goal.title.toLowerCase();
+        calorieResultsRange.innerHTML = (targetCalories - 100) + ' - ' + (targetCalories + 100);
+
+        calculatorPanels.map(function (panel) {
+            return panel.style.display = 'none';
+        });
+
+        changeActivityLevelDropdown.value = activityLevel.value;
+
+        calculator.querySelector('fieldset#calorie-results-panel').style.display = 'block';
+        calculator.firstElementChild.scrollIntoView();
+    });
+
+    calculatorPaginationBtns.forEach(function (btn) {
+        btn.addEventListener('click', function (e) {
+            e.preventDefault();
+            var closestPanel = this.closest('fieldset');
+
+            calculatorPanels.map(function (panel) {
+                return panel.style.display = 'none';
+            });
+
+            if (btn.classList.contains('next')) {
+
+                if (btn.classList.contains('check-fields')) {
+                    if (checkFailableFields(
+                        calculator,
+                        calculator.querySelector('select[name="height-unit"]').value,
+                        calculator.querySelector('select[name="weight-unit"]').value
+                    )) {
+                        closestPanel.nextElementSibling.style.display = 'block';
+                    }
+                } else {
+                    closestPanel.nextElementSibling.style.display = 'block';
+                }
+
+            } else {
+                closestPanel.previousElementSibling.style.display = 'block';
+            }
+
+            calculator.firstElementChild.scrollIntoView();
+        });
+    });
+
+    whyRangeOpen.addEventListener('click', function(e){
+        e.preventDefault();
+
+        whyRangePanel.style.display = 'block';
+    });
+
+    whyRangeClose.addEventListener('click', function(e){
+        e.preventDefault();
+
+        whyRangePanel.style.display = 'none';
+    });
+
+    changeActivityLevelDropdown.addEventListener('change', function(){
+        let tdee           = Math.round(bmr * parseFloat(this.value));
+        let targetCalories = Math.round(tdee * parseFloat(goal.value));
+
+        calorieResultsRange.innerHTML = (targetCalories - 100) + ' - ' + (targetCalories + 100);
+
+        calculator.firstElementChild.scrollIntoView();
+    });
+}
